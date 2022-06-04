@@ -1,0 +1,126 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2022
+## B-MAT-200-LIL-2-1-201yams-simon.auduberteau
+## File description:
+## 
+##
+
+import sys
+from math import *
+from time import *
+
+def help():
+    print("USAGE\n    ./203hotline [n k | d]")
+    print("\nDESCRIPTION")
+    print("    n    n value for the computation of C(n, k)")
+    print("    k    k value for the computation of C(n, k)")
+    print("    d    average duration of calls (in seconds)")
+    exit(0)
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def is_floatarg(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    if len(sys.argv) > 3:
+        sys.stderr.write("Error: Too many arguments\n")
+        sys.exit(84)
+    if len(sys.argv) < 2:
+        sys.stderr.write("Error: Not enough arguments\n")
+        sys.exit(84)
+    if len(sys.argv) == 2:
+        if not is_intarg(sys.argv[1]):
+            sys.stderr.write("Error: Arguments have to be number\n")
+            sys.exit(84)
+    elif len(sys.argv) == 3:
+        if int(sys.argv[1]) < 0 or int(sys.argv[2]) < 0:
+            sys.stderr.write("Error: numbers must be positive\n")
+            sys.exit(84)
+        if not is_intarg(sys.argv[1]):
+            sys.stderr.write("Error: Arguments have to be number\n")
+            sys.exit(84)
+        if not is_intarg(sys.argv[2]):
+            sys.stderr.write("Error: Arguments have to be number\n")
+            sys.exit(84)
+        if int(sys.argv[2]) > int(sys.argv[1]):
+            sys.stderr.write("Error: n must be greater than k\n")
+            sys.exit(84)
+
+def combinaison(n, k):
+    print(sys.argv[1] + "-combinaisons of a set of size " + sys.argv[2] + ":")
+    c = factorial(n) // (factorial(k) * factorial(n-k))
+    print(c)
+
+def Bdistribution(d):
+    print("Binomial distribution:")
+    res = []
+    bino = 0
+    temps = 0
+    clock = time()
+    overload = 0
+
+    for i in range(0, 51):
+        bino = factorial(3500) / (factorial(i) * factorial(3500 - i))
+        p = d / (3600 * 8)
+        res.append(bino * p**i * (1 - p)**(3500 - i))
+    tmp = time()
+    temps = (tmp - clock) * 1000
+    for i in range(1, 52):
+        if i - 1 > 25:
+            overload += res[i - 1]
+        if (i % 5 == 0 or i == 51):
+            print(str(i - 1) + " -> %.3f" % res[i - 1])
+        else:
+            print(str(i - 1) + " -> %.3f" % res[i - 1], end='\t')
+    overload *= 100
+    print("Overload: %.1f" % overload + "%")
+    print("Computation time: %.2f ms" % temps)
+
+def Pdistribution(d):
+    print("Poisson distribution:")
+    res = []
+    temps = 0
+    clock = time()
+    overload = 0
+
+    for i in range(0, 51):
+        res.append((((((3500 / 8) / 3600) * d)**i) / factorial(i)) * exp(-((3500 / 8) / 3600) * d))
+    tmp = time()
+    temps = (tmp - clock) * 1000
+    for i in range(1, 52):
+        if i - 1 > 25:
+            overload += res[i - 1]
+        if (i % 5 == 0 or i == 51):
+            print(str(i - 1) + " -> %.3f" % res[i - 1])
+        else:
+            print(str(i - 1) + " -> %.3f" % res[i - 1], end='\t')
+    overload *= 100
+    print("Overload: %.1f" % overload + "%")
+    print("Computation time: %.2f ms" % temps)
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        if len(sys.argv) == 3:
+            arg = (int(sys.argv[1]), int(sys.argv[2]))
+            combinaison(arg[0], arg[1])
+        else:
+            Bdistribution(int(sys.argv[1]))
+            print('')
+            Pdistribution(int(sys.argv[1]))
+    
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,4 @@
+*.o
+NormEZ.rb
+test_ftp.sh
+myftp

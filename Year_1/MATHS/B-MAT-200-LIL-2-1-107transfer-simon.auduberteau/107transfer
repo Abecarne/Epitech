@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2021
+## B-MAT-200-LIL-2-1-107transfer-simon.auduberteau
+## File description:
+## 107transfer
+##
+
+import sys
+from math import *
+from solving import *
+
+def help():
+    print("USAGE\n    ./107transfer [num den]*")
+    print("\nDESCRIPTION")
+    print("    num     polynomial numerator defined by its coefficients")
+    print("    den     polynomial denominator defined by its coefficients")
+    exit(0)
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def is_floatarg(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    """
+    Je te laisse le faire comme t'es le pro (#TheBest) <3
+    """
+    if len(sys.argv) == 1:
+        sys.stderr.write("Error: Not enough argument\n")
+        sys.exit(84)
+    for argv in sys.argv[1:]:
+        tab = argv.split("*")
+        for i in tab:
+            if not is_intarg(i):
+                sys.stderr.write("Error arguments\n")
+                sys.exit(84)
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        calcul(sys.argv)
+    
+if __name__ == "__main__":
+    main()
+
+##################################
+#######  Teste avec ca   #########
+##################################
+
+# ./107transfer "1*2*3*4*5" "6*7*8*9" "102*20.3*0*4*96" "a*b*c*d*e"
+
+# Gestion d'erreur :
+# Div par 0
+# Caracteres autres que des chiffres et '*' dans les str
+# Je sais plus quoi 

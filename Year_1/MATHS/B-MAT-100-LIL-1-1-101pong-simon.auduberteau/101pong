@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+##
+## EPITECH PROJECT, 2020
+## Maths
+## File description:
+## 101pong
+##
+
+import sys
+import string
+import math
+
+def help():
+    print("USAGE\n    ./101pong x0 y0 z0 x1 y1 z1 n\n")
+    print("DESCRIPTION\n    x0  ball abscissa at time t - 1")
+    print("    y0  ball ordinate at time t - 1")
+    print("    z0  ball altitude at time t - 1")
+    print("    x1  ball abscissa at time t")
+    print("    y1  ball ordinate at time t")
+    print("    z1  ball altitude at time t")
+    print("    n   time shift (greater than or equal to zero, integer)")
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def is_floatarg(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
+def vector():
+    vx = float(sys.argv[4]) - float(sys.argv[1])
+    vy = float(sys.argv[5]) - float(sys.argv[2])
+    vz = float(sys.argv[6]) - float(sys.argv[3])
+    print("The velocity vector of the ball is:")
+    print("(%.2f" % vx + ", %.2f" % vy +", %.2f)" % vz)
+
+def coordinate():
+    vx = float(sys.argv[4]) - float(sys.argv[1])
+    vy = float(sys.argv[5]) - float(sys.argv[2])
+    vz = float(sys.argv[6]) - float(sys.argv[3])
+    coor_x = vx * (float(sys.argv[7]) + 1) + float(sys.argv[1])
+    coor_y = vy * (float(sys.argv[7]) + 1) + float(sys.argv[2])
+    coor_z = vz * (float(sys.argv[7]) + 1) + float(sys.argv[3])
+    print("At time t + " + sys.argv[7] + ", ball coordinates will be:")
+    print("(%.2f" % coor_x + ", %.2f" % coor_y + ", %.2f)" % coor_z)
+
+def norme():
+    vx = float(sys.argv[4]) - float(sys.argv[1])
+    vy = float(sys.argv[5]) - float(sys.argv[2])
+    vz = float(sys.argv[6]) - float(sys.argv[3])
+    coor_z_at_n = ((float(sys.argv[6]) - float(sys.argv[3])) * float(sys.argv[7])) + float(sys.argv[6])
+    angle = (vz / math.sqrt((vx * vx) + (vy * vy) + (vz * vz)))
+    angle = math.acos(angle)/math.pi * 180 - 90
+    if float(sys.argv[6]) > 0 and coor_z_at_n <= 0 or float(sys.argv[6]) < 0 and coor_z_at_n >= 0:
+        print("The incidence angle is:")
+        print("%.2f" % angle + " degrees")
+
+def calcul():
+    vz = float(sys.argv[6]) - float(sys.argv[3])
+    vector()
+    coordinate()
+    if (float(sys.argv[6]) + vz < float(sys.argv[6]) and float(sys.argv[6]) < 0) or (float(sys.argv[6]) + vz > float(sys.argv[6]) and float(sys.argv[6]) > 0):
+        print("The ball won't reach the paddle.")
+        exit(0)
+    norme()
+
+def main():
+    if len(sys.argv) == 2 and sys.argv[1] == "-h":
+        help()
+        exit(0)
+    if (len(sys.argv) < 8 or len(sys.argv) > 8):
+        print("Too many or not enough arguments. If you want help please use \"./101pong -h\"")
+        exit(84)
+    if int(sys.argv[7]) < 0:
+        print("n must be greater than or equal to zero, integer. If you want help please use \"./101pong -h\"")
+        exit(84)
+    else:
+        for argv in sys.argv[1:]:
+            if not is_intarg(argv) and not is_floatarg(argv):
+                print("Put only integer")
+                exit(84)
+        calcul()
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,24 @@
+- hosts: all
+  task:
+    - name: "Install postgresql and psql packages"
+      apt:
+        - name: postgresql
+          state: 12
+        - name: postgresql-client
+
+    - name: "Setup postgresql database"
+      shell: "postgresql-setup initdb"
+      when: not postgres_data.stat.exists
+
+    - name: "Start postgresql service"
+      service:
+        name: postgresql
+        state: started
+        enabled: yes
+
+    - name: "Create poll-app database"
+      postgresql_db:
+        state: present
+        name: "poll-app-db"
+      become: yes
+      become_user: postgre

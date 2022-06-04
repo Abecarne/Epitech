@@ -1,0 +1,4 @@
+*.o
+Makefile
+main.cpp
+test

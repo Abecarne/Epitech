@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2022
+## PROJECTS [WSL: Ubuntu-20.04]
+## File description:
+## groundhog
+##
+
+import sys
+import numpy as np
+from cmath import nan
+import error_bonus, calculs_bonus
+
+def main():
+    """
+    """
+    error_bonus.errorHandling(sys.argv)
+    calculs_bonus.mainCalcul(int(sys.argv[1]))
+
+if __name__ == "__main__":
+    main()

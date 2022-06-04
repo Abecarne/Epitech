@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2022
+## delivery [WSL: Ubuntu-20.04]
+## File description:
+## 209poll
+##
+
+import sys
+from math import *
+from time import *
+
+def help():
+    print("USAGE\n    ./209poll pSize sSize p")
+    print("\nDESCRIPTION")
+    print("    pSize    size of the population")
+    print("    sSize    size of the sample (supposed to be representative)")
+    print("    p        percentage of voting intentions for a specific candidate")
+    sys.exit(0)
+
+def is_floatarg(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    """
+    """
+    if (len(sys.argv) != 4):
+        sys.exit(84)
+    for i in sys.argv[1:]:
+        if (not is_floatarg(i)):
+            print(f"Error: {i} isn't a number", file=sys.stderr)
+            sys.exit(84)
+        if (float(i) < 0):
+            print(f"Error: {i} must be positive", file=sys.stderr)
+            sys.exit(84)
+
+
+# get the variance of a value
+def get_variance(sSize, pSize, p):
+    return ((p * (100 - p)) / 10000 / sSize) * (pSize - sSize) / (pSize - 1)
+
+def confidence(percentage, variance):
+    if percentage == 95:
+        return ((2 * (1.96 * sqrt(variance))) / 2 * 100)
+    else:
+        return ((2 * (2.58 * sqrt(variance))) / 2 * 100)
+
+def print_all(pSize, sSize, p, variance, conf95, conf99):
+    print(f"Population size:         {pSize}")
+    print(f"Sample size:             {sSize}")
+    print(f"Voting intentions:       {p}")
+    print("Variance:                {:.6f}" .format(round(variance, 6)) )
+    print(f"95% confidence interval: [", end="")
+    first = p - conf95
+    if (first < 0):
+        first = 0.00
+    print("{:.2f}%; ".format(first),  end="")
+    second = p + conf95
+    if (second > 100):
+        second = 100.00
+    print("{:.2f}%]".format(second))
+    print(f"99% confidence interval: [", end="")
+    first = p - conf99
+    if (first < 0):
+        first = 0.00
+    print("{:.2f}%; ".format(first),  end="")
+    second = p + conf99
+    if (second > 100):
+        second = 100.00
+    print("{:.2f}%]".format(second))
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        pSize = float(sys.argv[1])
+        sSize = float(sys.argv[2])
+        if (pSize < sSize):
+            print(f"Error: pSize ({pSize}) must be greater than sSize ({sSize})", file=sys.stderr)
+            sys.exit(84)
+        p = float(sys.argv[3])
+        variance = get_variance(sSize, pSize, p)
+        conf95 = confidence(95, variance)
+        conf99 = confidence(99, variance)
+        print_all(pSize, sSize, p, variance, conf95, conf99)
+        
+    
+if __name__ == "__main__":
+    main()

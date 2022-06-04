@@ -1,0 +1,229 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2022
+## B-MAT-200-LIL-2-1-201yams-simon.auduberteau
+## File description:
+## 
+##
+
+import sys
+from math import *
+
+def help():
+    print("USAGE\n    ./201yams d1 d2 d3 d4 d5 c")
+    print("\nDESCRIPTION")
+    print("    d1    value if the first die (0 if not thrown)")
+    print("    d2    value if the second die (0 if not thrown)")
+    print("    d3    value if the third die (0 if not thrown)")
+    print("    d4    value if the fourth die (0 if not thrown)")
+    print("    d5    value if the fifth die (0 if not thrown)")
+    print("    c     expected combinaison")
+    exit(0)
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def is_floatarg(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
+def check_combinaison():
+    cpt = 0
+    ans = ['pair', 'three', 'four', 'full', 'straight', 'yams']
+    for c in sys.argv[6]:
+        if c == "_":
+            cpt += 1
+    if (cpt == 0 or cpt > 2):
+        sys.stderr.write("Error: Incompatible expected combinaison\n")
+        sys.exit(84)
+    tab = sys.argv[6].split('_');
+    if (len(tab) == 3):
+        if not (tab[0] in ans):
+            sys.stderr.write("Error: Incompatible expected combinaison\n")
+            sys.exit(84)
+        else:
+            if not is_intarg(tab[1]) or not is_intarg(tab[2]):
+                sys.stderr.write("Error: Incompatible expected combinaison\n")
+                sys.exit(84)
+            else:
+                if int(tab[1]) < 1 or int(tab[1]) > 6:
+                    sys.stderr.write("Error: Number for the expected combinaison must be between 1 and 6\n")
+                    sys.exit(84)
+                if int(tab[2]) < 1 or int(tab[2]) > 6:
+                    sys.stderr.write("Error: Number for the expected combinaison must be between 1 and 6\n")
+                    sys.exit(84)
+    else:
+        if not (tab[0] in ans):
+            sys.stderr.write("Error: Incompatible expected combinaison\n")
+            sys.exit(84)
+        else:
+            if tab[0] == ans[4]:
+                if int(tab[1]) != 5 and int(tab[1]) != 6:
+                        sys.stderr.write("Error: Number for the expected combinaison must be 5 or 6\n")
+                        sys.exit(84)
+            if not is_intarg(tab[1]):
+                sys.stderr.write("Error: Incompatible expected combinaison\n")
+                sys.exit(84)
+            if int(tab[1]) < 1 or int(tab[1]) > 6:
+                    sys.stderr.write("Error: Number for the expected combinaison must be between 1 and 6\n")
+                    sys.exit(84)
+    
+
+def error():
+    if len(sys.argv) < 7:
+        sys.stderr.write("Error: Not enough argument\n")
+        sys.exit(84)
+    if len(sys.argv) > 7:
+        sys.stderr.write("Error: Too many arguments\n")
+        sys.exit(84)
+    for argv in sys.argv[1:len(sys.argv) -1]:
+        if not is_intarg(argv):
+            sys.stderr.write("Error arguments, d1 - d2 - d3 - d4 - d5 must be an integer\n")
+            sys.exit(84)
+        if int(argv) < 0 or int(argv) > 6:
+            sys.stderr.write("Error arguments, d1 - d2 - d3 - d4 - d5 must be between 0 and 6\n")
+            sys.exit(84)
+    check_combinaison()
+
+def print_result(combinaison, number1, number2, res, sentence):
+    if combinaison == "full":
+        print("Chances to get a " + str(number1) + " full of " + str(number2) + ": " + str(res) + "%")
+    else:
+        print("Chances to get a " + str(number1) + " " + sentence + ": " + res + "%")
+
+def calcul_coef(n, k):
+    res = factorial(n) / (factorial(k) * factorial(n - k))
+    return res
+
+def calcul_bin(n, k):
+    coef = calcul_coef(n, k)
+    tmp = coef * pow(1/6, k) * pow(5/6, n - k)
+    return tmp
+
+def calcul_prob(combi, number):
+    res = 0.0
+    k = 0
+    ans = ['pair', 'three', 'four', 'yams']
+
+    for i in sys.argv[1:6]:
+        if i == number:
+            k += 1
+    if combi == ans[0] and k >= 2:
+        print_result(combi, number, 0, "100.00", "pair")
+        return
+    if combi == ans[1] and k >= 3:
+        print_result(combi, number, 0, "100.00", "three-of-a-kind")
+        return
+    if combi == ans[2] and k >= 4:
+        print_result(combi, number, 0, "100.00", "four-of-a-kind")
+        return
+    if combi == ans[3] and k >= 5:
+        print_result(combi, number, 0, "100.00", "yams")
+        return
+
+    # PAIR
+    if combi == ans[0]:
+        for i in range(2 - k, 5 - k + 1):
+            res += calcul_bin(5 - k, i)
+        res *= 100
+        print_result(combi, number, 0, str(round(res, 2)), "pair")
+
+    # THREE
+    if combi == ans[1]:
+        for i in range(3 - k, 5 - k + 1):
+            res += calcul_bin(5 - k, i)
+        res *= 100
+        print_result(combi, number, 0, str(round(res, 2)), "three-of-a-kind")
+
+    # FOUR
+    if combi == ans[2]:
+        for i in range(4 - k, 5 - k + 1):
+            res += calcul_bin(5 - k, i)
+        res *= 100
+        print_result(combi, number, 0, str(round(res, 2)), "four-of-a-kind")
+
+    # YAMS
+    if combi == ans[3]:
+        for i in range(5 - k, 5 - k + 1):
+            res += calcul_bin(5 - k, i)
+        res *= 100
+        print_result(combi, number, 0, str(round(res, 2)), "yams")
+
+def calcul_binFull(n, k, a, b):
+    coef = calcul_coef(n, k)
+    tmp = coef * pow(1/6, 5 - a - b)
+    return tmp
+
+def full(number1, number2):
+    res = 0.0
+    occurence_nbr1 = 0
+    occurence_nbr2 = 0
+    for i in sys.argv[1:6]:
+        if i == number1:
+            occurence_nbr1 += 1
+        if i == number2:
+            occurence_nbr2 += 1
+    if occurence_nbr1 == 3 and occurence_nbr2 == 2:
+        print_result("full", number1, number2, "100.00", "full of")
+    else:
+        res = calcul_binFull(5 - occurence_nbr1 - occurence_nbr2, 3 - occurence_nbr1, occurence_nbr1, occurence_nbr2)
+        res *= 100
+        print_result("full", number1, number2, str(round(res, 2)), "full of")
+
+def straight(number):
+    res = 0.0
+    cpt = 0
+    j = 0
+    cpt_ok = 0
+    redo = 5
+    combi = [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0]]
+    for i in sys.argv[1:6]:
+        if i == 0:
+            cpt += 1
+        else:
+            combi[int(i) - 1][1] = 1
+    if number == 6:
+        j = 1
+    while (j < int(number)):
+
+        if (combi[j][1] == 1):
+            cpt_ok += 1
+        j += 1
+    if (cpt_ok == 5):
+        print_result("straight", number, 0, "100.00", "straight")
+        return
+    if cpt == 5:
+        res = factorial(5) / pow(6, 5)
+        res *= 100
+        print_result("straight", number, 0, str(round(res, 2)), "straight")
+    redo -= cpt_ok
+    res = factorial(redo) / pow(6, redo)
+    res *= 100
+    print_result("straight", number, 0, str(round(res, 2)), "straight")
+
+def calcul():
+    ans = ['pair', 'three', 'four', 'full', 'straight', 'yams']
+    combinaison = sys.argv[6].split('_');
+    if combinaison[0] == ans[0] or combinaison[0] == ans[1] or combinaison[0] == ans[2] or combinaison[0] == ans[5]:
+        calcul_prob(combinaison[0], combinaison[1])
+    if combinaison[0] == ans[3]:
+        full(combinaison[1], combinaison[2])
+    if combinaison[0] == ans[4]:
+        straight(combinaison[1])
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        calcul()
+    
+if __name__ == "__main__":
+    main()

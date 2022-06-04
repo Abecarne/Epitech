@@ -1,0 +1,453 @@
+{
+    "mapStructures": {
+        "SM": [
+            {
+                "modelFile": "picnicbox.glb",
+                "position": {
+                    "x": 250,
+                    "y": 69,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "carpet.glb",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "cake1.glb",
+                "position": {
+                    "x": 212.5,
+                    "y": 9,
+                    "z": -195
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bottle1.glb",
+                "position": {
+                    "x": 160,
+                    "y": 47.5,
+                    "z": -260
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bottle2.glb",
+                "position": {
+                    "x": 140,
+                    "y": 47.5,
+                    "z": -200
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bottle3.glb",
+                "position": {
+                    "x": 100,
+                    "y": 47.5,
+                    "z": -280
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "glasses.glb",
+                "position": {
+                    "x": 60,
+                    "y": 30,
+                    "z": -230
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "cake2.glb",
+                "position": {
+                    "x": -5,
+                    "y": 5,
+                    "z": -310
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bobbin1.glb",
+                "position": {
+                    "x": -160,
+                    "y": 23,
+                    "z": -255
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bobbin2.glb",
+                "position": {
+                    "x": -120,
+                    "y": 23,
+                    "z": -255
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bobbin3.glb",
+                "position": {
+                    "x": -150,
+                    "y": 23,
+                    "z": -160
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bobbin4.glb",
+                "position": {
+                    "x": -220,
+                    "y": 23,
+                    "z": -230
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bananas2.glb",
+                "position": {
+                    "x": -220,
+                    "y": 23,
+                    "z": -160
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "bananas1.glb",
+                "position": {
+                    "x": -230,
+                    "y": 18,
+                    "z": 50
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "apples.glb",
+                "position": {
+                    "x": -260,
+                    "y": 18,
+                    "z": 30
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "oranges1.glb",
+                "position": {
+                    "x": -210,
+                    "y": 18,
+                    "z": -260
+                },
+                "scale": {
+                    "x": 4,
+                    "y": 4,
+                    "z": 4
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "oranges2.glb",
+                "position": {
+                    "x": -120,
+                    "y": 18,
+                    "z": 260
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "box.glb",
+                "position": {
+                    "x": 100,
+                    "y": 30,
+                    "z": 240
+                },
+                "scale": {
+                    "x": 5,
+                    "y": 5,
+                    "z": 5
+                },
+                "rotationAxis": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                },
+                "rotationAngle": 110
+            },
+            {
+                "modelFile": "ground.glb",
+                "position": {
+                    "x": 0,
+                    "y": -4,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 3000,
+                    "y": 1,
+                    "z": 3000
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            }
+        ],
+        "AM": [
+
+        ]
+    },
+    "traveling": [
+        {
+            "begin": {
+                "position": {
+                    "x": -300,
+                    "y": 10,
+                    "z": 0
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "ending": {
+                "position": {
+                    "x": -200,
+                    "y": 200,
+                    "z": 200
+                },
+                "target": {
+                    "x": 100,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "durationTime": 6
+        },
+        {
+            "begin": {
+                "position": {
+                    "x": 300,
+                    "y": 100,
+                    "z": 200
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "ending": {
+                "position": {
+                    "x": -250,
+                    "y": 30,
+                    "z": 300
+                },
+                "target": {
+                    "x": 100,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "durationTime": 6
+        },
+        {
+            "begin": {
+                "position": {
+                    "x": -100,
+                    "y": 30,
+                    "z": -100
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "ending": {
+                "position": {
+                    "x": 100,
+                    "y": 30,
+                    "z": -340
+                },
+                "target": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                }
+            },
+            "durationTime": 6
+        }
+    ]
+}

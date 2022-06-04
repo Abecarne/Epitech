@@ -1,0 +1,39 @@
+/*
+** EPITECH PROJECT, 2022
+** delivery [WSL: Ubuntu-20.04]
+** File description:
+** main
+*/
+
+#include "../../include/abstracts/AGameModule.hpp"
+#include <fstream>
+
+class Centipede : public arcade::game::AGameModule {
+	public:
+		Centipede(/* args */);
+		~Centipede();
+
+		void launch(std::string) override;
+		void keyInput(arcade::Keys inputKey) override;
+
+		void update(arcade::Keys inputKey) override;
+		void setPos(void);
+		MapType getMap(void) override;
+		void moveUp(void);
+		void moveDown(void);
+		void moveRight(void);
+		void moveLeft(void);
+
+		int getScore(void) override;
+		arcade::State getState(void) override;
+		std::string getGameName(void) override;
+		MapType getMapFromFile(std::string filepath) override;
+
+	private:
+		int posx;
+		int posy;
+		int score;
+		arcade::State state;
+		MapType map;
+};
+

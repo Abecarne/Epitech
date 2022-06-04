@@ -1,0 +1,10 @@
+*.o
+*.txt
+*.report
+
+my_cat
+my_convert_temp
+my_koala
+
+hospital/main.cpp
+hospital/Makefile

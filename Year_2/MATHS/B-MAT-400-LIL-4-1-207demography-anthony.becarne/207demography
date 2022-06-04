@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2022
+## delivery [WSL: Ubuntu-20.04]
+## File description:
+## 207demography
+##
+
+import sys
+from math import *
+from time import *
+from printing import *
+from calculs import *
+
+def help():
+    print("USAGE\n    ./20dowels code [...]")
+    print("\nDESCRIPTION")
+    print("\tcode\tcountry code")
+    sys.exit(0)
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    """
+    """
+    if (len(sys.argv) < 2):
+        sys.exit(84)
+
+def get_data(country_code):
+    with open("207demography_data.csv", "r") as f:
+        for line in f:
+            line = line.split(";")
+            if (line[1] == country_code):
+                return line
+    print(f"Error: '{country_code}' doesn't exist in the csv file.", file=sys.stderr)
+    sys.exit(84)
+
+def main():
+    data = []
+
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        for i in sys.argv[1:]:
+            data.append(get_data(i))
+        # print(data)
+        main_calcul(data)
+        return 0
+    
+if __name__ == "__main__":
+    main()

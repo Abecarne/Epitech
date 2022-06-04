@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2021
+## B-MAT-200-LIL-2-1-108trigo-simon.auduberteau
+## File description:
+## 110borwein
+##
+
+import sys
+from math import *
+
+def help():
+    print("USAGE\n    ./110borwein n")
+    print("\nDESCRIPTION")
+    print("    n   constant defining the integral to be computed")
+    sys.exit(0)
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    if len(sys.argv) != 2:
+        sys.exit(84);
+    if not is_intarg(sys.argv[1]):
+        sys.exit(84)
+
+def calc_funct(nb, check):
+    if nb == 0:
+        return 1
+    res = 1
+    for i in range(check):
+        inter = nb / (2 * i + 1)
+        res *= sin(inter) / (inter)
+    return res
+
+def point_du_milieu(nb):
+    final_result = 0
+    for i in range(10000):
+        final_result = final_result + calc_funct(i / 2, nb + 1)
+    final_result *= 0.5
+    print("I%d = %.10f" % (nb, final_result))
+    if (final_result - pi / 2 > -0.0000000001 and final_result - pi / 2 < 0):
+        print("diff = 0.0000000000\n")
+    else:
+        print("diff = %.10f\n" % abs(final_result - pi / 2))
+
+def trapezes_dorsaux(nb):
+    final_result = 0
+    for i in range(1, 10000):
+        final_result += calc_funct(i / 2, nb + 1)
+    final_result = final_result * 2
+    final_result = final_result + (calc_funct(0, nb + 1) + calc_funct(5000, nb + 1))
+    final_result = final_result * (0.5 / 2)
+    print("I%d = %.10f" %(nb, final_result))
+    if (final_result - pi / 2 > -0.0000000001 and final_result - pi / 2 < 0):
+        print("diff = 0.0000000000\n")
+    else:
+        print("diff = %.10f\n" %(abs(final_result - pi / 2)))
+
+def homer_simpson(nb):
+    final_result1 = 0
+    final_result2 = 0
+    for i in range(0, 10000):
+        final_result1 += calc_funct(i / 2 + 0.5 / 2, nb + 1)
+    final_result1 = final_result1 * 4
+    for i in range(1, 10000):
+        final_result2 += calc_funct(i / 2, nb + 1)
+    final_result2 = final_result2 * 2
+    final_result = final_result1 + final_result2
+    final_result = final_result + (calc_funct(0, nb + 1) + calc_funct(5000, nb + 1))
+    final_result = final_result * (0.5 / 6)
+    print("I%d = %.10f" %(nb, final_result))
+    if (final_result - pi / 2 > -0.0000000001 and final_result - pi / 2 < 0):
+        print("diff = 0.0000000000")
+    else:
+        print("diff = %.10f" %(abs(final_result - pi / 2)))
+
+def display_res(arg):
+    print("Midpoint:")
+    point_du_milieu(arg)
+    print("Trapezoids:")
+    trapezes_dorsaux(arg)
+    print("Simpson:")
+    homer_simpson(arg)
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        arg = int(sys.argv[1])
+        display_res(arg)
+
+if __name__ == "__main__":
+    main()

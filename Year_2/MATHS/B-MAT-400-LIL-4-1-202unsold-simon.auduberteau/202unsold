@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2022
+## B-MAT-200-LIL-2-1-202unsold-simon.auduberteau
+## File description:
+## 202unsold
+##
+
+import sys
+import calculs
+import errors
+from math import *
+
+def help():
+    print("USAGE")
+    print("\t./202unsold a b")
+    print("DESCRIPTION")
+    print("\ta\tconstant computed from the past results")
+    print("\tb\tconstant computed from the past results")
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        errors.error()
+        calculs.main_calcul(int(sys.argv[1]), int(sys.argv[2]))
+        
+
+if __name__ == "__main__":
+    main()

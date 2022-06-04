@@ -1,0 +1,11 @@
+- hosts: all
+  task:
+    - name: "Install useful packages"
+      apt:
+        update_cache: yes
+        pkg:
+          - git
+          - nodejs
+          - npm
+      command: pip install Flask
+

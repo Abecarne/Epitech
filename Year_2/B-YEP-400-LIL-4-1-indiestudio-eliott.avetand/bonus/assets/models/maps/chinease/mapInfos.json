@@ -1,0 +1,234 @@
+{
+    "mapStructures": {
+        "SM": [
+            {
+                "modelFile": "infrastructure.obj",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 2
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "carpets.obj",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 2
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "divers_objects.obj",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 2
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "tables.obj",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 2
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            },
+            {
+                "modelFile": "decorations.obj",
+                "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                },
+                "scale": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 2
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": 0
+            }
+        ],
+        "AM": [
+            {
+                "modelFile": "fountain.iqm",
+                "animationFile": "fountain.iqm",
+                "textureFile": "/textures/Mfountain_baseColor.png",
+                "position": {
+                    "x": 0,
+                    "y": 110,
+                    "z": 1000
+                },
+                "scale": {
+                    "x": 2,
+                    "y": 2,
+                    "z": 2
+                },
+                "rotationAxis": {
+                    "x": 1,
+                    "y": 0,
+                    "z": 0
+                },
+                "rotationAngle": -90
+            }
+        ]
+    },
+    "traveling": [
+        {
+            "begin": {
+                "position": {
+                    "x": 100,
+                    "y": 100,
+                    "z": -400
+                },
+                "target": {
+                    "x": 300,
+                    "y": 100,
+                    "z": -300
+                }
+            },
+            "ending": {
+                "position": {
+                    "x": 0,
+                    "y": 300,
+                    "z": 0
+                },
+                "target": {
+                    "x": 0,
+                    "y": 300,
+                    "z": 0
+                }
+            },
+            "durationTime": 4
+        },
+        {
+            "begin": {
+                "position": {
+                    "x": -500,
+                    "y": 400,
+                    "z": -700
+                },
+                "target": {
+                    "x": -1300,
+                    "y": 200,
+                    "z": -1100
+                }
+            },
+            "ending": {
+                "position": {
+                    "x": 500,
+                    "y": 300,
+                    "z": -900
+                },
+                "target": {
+                    "x": 510,
+                    "y": 200,
+                    "z": -2000
+                }
+            },
+            "durationTime": 4
+        },
+        {
+            "begin": {
+                "position": {
+                    "x": 200,
+                    "y": 300,
+                    "z": 750
+                },
+                "target": {
+                    "x": 197,
+                    "y": 297,
+                    "z": 760
+                }
+            },
+            "ending": {
+                "position": {
+                    "x": 0,
+                    "y": 300,
+                    "z": 700
+                },
+                "target": {
+                    "x": 0,
+                    "y": 297,
+                    "z": 710
+                }
+            },
+            "durationTime": 3
+        },
+        {
+            "begin": {
+                "position": {
+                    "x": 0,
+                    "y": 300,
+                    "z": 700
+                },
+                "target": {
+                    "x": 0,
+                    "y": 297,
+                    "z": 710
+                }
+            },
+            "ending": {
+                "position": {
+                    "x": -200,
+                    "y": 300,
+                    "z": 800
+                },
+                "target": {
+                    "x": -190,
+                    "y": 297,
+                    "z": 810
+                }
+            },
+            "durationTime": 3
+        }
+    ]
+}

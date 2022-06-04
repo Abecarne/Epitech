@@ -1,0 +1,6 @@
+- hosts: all
+  task:
+    - name: "Install redis package"
+      apt:
+        name: redis
+

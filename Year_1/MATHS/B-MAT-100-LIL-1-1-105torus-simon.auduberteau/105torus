@@ -1,0 +1,52 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## B-MAT-100-LIL-1-1-104intersection-simon.auduberteau
+## File description:
+## 104intersection
+##
+
+import sys
+from math import *
+from solving import *
+
+def help():
+    print("USAGE\n    ./105torus opt a0 a1 a2 a3 a4 n\n")
+    print("DESCRIPTION")
+    print("    opt       method option:")
+    print("                  1 for the bisection method")
+    print("                  2 for Newton's method")
+    print("                  3 for the secant method")
+    print("    a[0-4]    coefficients of the equation")
+    print("    n         precision (the application of the polynomial to the solution should")
+    print("              be smaller than 10^-n)")
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    if len(sys.argv) != 8:
+        sys.stderr.write("Error Arguments. Please use \"-h\"\n")
+        sys.exit(84)
+    for argv in sys.argv[1:]:
+            if not is_intarg(argv):
+                sys.stderr.write("Error Arguments. Please put only interger number\n")
+                sys.exit(84)
+
+def main():
+    if len(sys.argv) == 2 and sys.argv[1] == "-h":
+        help()
+    else:
+        error()
+        val = [int(sys.argv[6]), int(sys.argv[5]), int(sys.argv[4]), int(sys.argv[3]), int(sys.argv[2])]
+        if 0 <= int(sys.argv[7]) < 16:
+            solve(val)
+        else:
+            sys.exit(84)
+    
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2021
+## B-MAT-200-LIL-2-1-108trigo-simon.auduberteau
+## File description:
+## 108trigo
+##
+
+import sys
+from math import *
+from solving import *
+
+def help():
+    print("USAGE\n    ./109titration file")
+    print("\nDESCRIPTION")
+    print("    file    a csv file containing \"vol;ph\" lines")
+    sys.exit(0)
+
+def error():
+    if len(sys.argv) != 2:
+        sys.exit(84);
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        titration(sys.argv[1])
+
+if __name__ == "__main__":
+    main()

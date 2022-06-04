@@ -1,0 +1,5 @@
+*.o
+*.a
+test
+
+main.c

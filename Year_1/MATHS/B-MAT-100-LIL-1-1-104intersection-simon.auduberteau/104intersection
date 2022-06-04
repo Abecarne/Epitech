@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2020
+## B-MAT-100-LIL-1-1-104intersection-simon.auduberteau
+## File description:
+## 104intersection
+##
+
+import sys
+from math import *
+from calculs import *
+
+def help():
+    print("USAGE\n    ./104intersection opt xp yp zp xv yv zv p\n")
+    print("DESCRIPTION\n    opt             surface option: 1 for a sphere, 2 for a cynlinder, 3 for a cone")
+    print("    (xp, yp, zp)    coordinates of a point by which the light ray passes through")
+    print("    (xv, yv, zv)    coordinates of a vector parallel to the light ray")
+    print("    p               parameter: radius of the sphere, radius of the cylinder, or")
+    print("                    angle formed by the clone and the Z-axis")
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def is_floatarg(str):
+    try:
+        float(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    if len(sys.argv) != 9:
+        sys.stderr.write("Error Arguments. Please use \"-h\"\n")
+        sys.exit(84)
+    if sys.argv[1] != '1' and sys.argv[1] != '2' and sys.argv[1] != '3':
+        sys.stderr.write("Error Arguments.\n")
+        sys.exit(84)
+    for argv in sys.argv[1:]:
+            if not is_intarg(argv) and not is_floatarg(argv):
+                sys.stderr.write("Error Arguments. PLease put only number\n")
+                sys.exit(84)
+
+def display_text():
+    if sys.argv[1] == '1':
+        calcul_sphere()
+    elif sys.argv[1] == '2':
+        calcul_cylindre()
+    elif sys.argv[1] == '3':
+        calcul_cone()
+
+def main():
+    if len(sys.argv) == 2 and sys.argv[1] == "-h":
+        help()
+    else:
+        error()
+        display_text()
+
+if __name__ == "__main__":
+    main()

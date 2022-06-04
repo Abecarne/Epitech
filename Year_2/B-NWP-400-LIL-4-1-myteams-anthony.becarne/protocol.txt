@@ -1,0 +1,378 @@
+myteams Protocol
+
+==========      COMMANDS      ==========
+
+Please note that all arguments of the existing commands must to be quoted with double quotes.
+A missing quote will be interpreted as an error.
+
+From the standard input, client handles the following commands:
+
+    - /help
+        --> Prints the list of commands.
+
+    - /login ["username"]
+        --> Set the username used by client
+            Please note that the max username lenght is 32 characters.
+
+    - /logout
+        --> Logout from the server
+
+    - /users
+        --> Get the list of all users that exist on the domain.
+
+    - /user ["user_uuid"]
+        --> Get informations about an user.
+
+    - /send ["user_uuid"] ["message"]
+        --> Send a message to a user
+            Please note that the max message lenght is 512 characters.
+
+    - /messages ["user_uuid"]
+        --> List all messages exchange with an user.
+
+    - /subscribe ["team_uuid"]
+        --> Subscribe to the event of a team and its sub directories
+            (enables reception of all events from a team).
+
+    - /subscribed ?["team_uuid"]
+        --> List all subscribed teams or list all users subscribed to a team.
+
+    - /unsubscribe ["team_uuid"]
+        --> Unsubscribe from a team.
+
+    - /use ?["team_uuid"] ?["channel_uuid"] ?["thread_uuid"]
+        --> Specify a context team/channel/thread.
+
+    ___________________________________________________________________________________________________________________
+    - CREATE:
+
+        When the context is not defined (/use):
+        - /create ["team_name"] ["team_description"]
+            --> create a new team
+                Please note that the max team name lenght is 32 characters.
+
+        When team_uuid is defined (/use "team_uuid"):
+        - /create ["channel_name"] ["channel_description"]
+            --> create a new channel
+                Please note that the max channel lenght is 32 characters.
+
+        When team_uuid and channel_uuid are defined (/use "team_uuid" "channel_uuid"):
+        - /create ["thread_title"] ["thread_message"]
+            --> create a new thread
+            Please note that the max thread title lenght is 32 characters.
+
+        When team_uuid, channel_uuid and thread_uuid are defined (/use "team_uuid" "channel_uuid" "thread_uuid"):
+        - /create ["comment_body"]
+            --> create a new reply
+            Please note that the max reply lenght is 512 characters.
+    ___________________________________________________________________________________________________________________
+
+    ___________________________________________________________________________________________________________________
+    - LIST:
+
+        When the context is not defined (/use):
+        - /list
+            --> list all existing teams.
+
+        When team_uuid is defined (/use "team_uuid"):
+        - /list
+            --> list all existing channels.
+
+        When team_uuid and channel_uuid are defined (/use "team_uuid" "channel_uuid"):
+        - /list
+            --> list all existing threads.
+
+        When team_uuid, channel_uuid and thread_uuid are defined (/use "team_uuid" "channel_uuid" "thread_uuid"):
+        - /list
+            --> list all existing replies.
+    ___________________________________________________________________________________________________________________
+
+    ___________________________________________________________________________________________________________________
+    - INFO:
+
+        When the context is not defined (/use):
+        - /info
+            --> display currently logged user infos.
+
+        When team_uuid is defined (/use "team_uuid"):
+        - /info
+            --> display currently selected team infos.
+
+        When team_uuid and channel_uuid are defined (/use "team_uuid" "channel_uuid"):
+        - /info
+            -->  display currently selected channel infos.
+
+        When team_uuid, channel_uuid and thread_uuid are defined (/use "team_uuid" "channel_uuid" "thread_uuid"):
+        - /info
+            --> display currently selected thread infos.
+    ___________________________________________________________________________________________________________________
+
+==========      END OF COMMANDS      ==========
+
+==========      PROTOCOL      ==========
+
+Syntax:
+    - [command] [arguments]     (ex: /login "Anthony1234")
+
+    <-- Reply from the server to client
+
+Following commands and their returning code:
+
+- Connection Establishment
+    <-- 110
+
+- /help
+    <-- 111
+
+- /login ["username"]
+    <-- 202 OK
+    or
+    <-- 402 KO
+        if the username is already used.
+        if the username is too long.
+        if the username is empty.
+        if client already has a username.
+
+- /logout
+    <-- 203 OK
+    or
+    <-- 403 KO
+        if client is not logged in.
+
+- /users
+    <-- 231 OK
+    or
+    <-- 431 KO
+        if client is not logged in.
+
+- /user ["user_uuid"]
+    <-- 241 OK
+    or
+    <-- 441 KO
+        if client is not logged in.
+        if the user_uuid is not valid.
+        if the message is too long.
+        if the message is empty.
+
+- /send ["user_uuid"] ["message"]
+    <-- 206 OK
+    or
+    <-- 406 KO
+        if client is not logged in.
+        if the user_uuid is not valid.
+        if the message is too long.
+        if the message is empty.
+
+- /messages ["user_uuid"]
+    <-- 232 OK
+    or
+    <-- 432 KO
+        if client is not logged in.
+        if the user_uuid is not valid.
+
+- /subscribe ["team_uuid"]
+    <-- 208 OK
+    or
+    <-- 408 KO
+        if client is not logged in.
+        if the team_uuid is not valid.
+        if the client is already subscribed in the team.
+
+- /subscribed ?["team_uuid"]
+    <-- 233 OK
+    or
+    <-- 234 OK
+    or
+    <-- 433 KO
+        if client is not logged in.
+        if the team_uuid is not valid.
+
+- /unsubscribe ["team_uuid"]
+    <-- 211 OK
+    or
+    <-- 411 KO
+        if client is not logged in.
+        if the team_uuid is not valid.
+        if the client is not subscribed in the team.
+
+- /use ?["team_uuid"] ?["channel_uuid"] ?["thread_uuid"]
+    <-- 212 OK
+    or
+    <-- 412 KO
+        if client is not logged in.
+        if the team_uuid is not valid.
+        if the channel_uuid is not valid.
+        if the thread_uuid is not valid.
+
+When the context is not defined (/use):
+- /create ["team_name"] ["team_description"]
+    <-- 220 OK
+    or
+    <-- 420 KO
+        if client is not logged in.
+        if the team_name is not valid.
+        if the team_description is not valid.
+        if the team_name is too long.
+        if the team_name is empty.
+        if the team_description is too long.
+        if the team_description is empty.
+
+When team_uuid is defined (/use "team_uuid"):
+- /create ["channel_name"] ["channel_description"]
+    <-- 221 OK
+    or
+    <-- 421 KO
+        if client is not logged in.
+        if the team_uuid is not valid.
+        if the channel_name is not valid.
+        if the channel_description is not valid.
+        if the channel_name is too long.
+        if the channel_name is empty.
+        if the channel_description is too long.
+        if the channel_description is empty.
+
+When team_uuid and channel_uuid are defined (/use "team_uuid" "channel_uuid")
+- /create ["thread_title"] ["thread_message"]
+    <-- 222 OK
+    or
+    <-- 422 KO
+        if client is not logged in.
+        if the team_uuid is not valid.
+        if the channel_uuid is not valid.
+        if the thread_title is not valid.
+        if the thread_message is not valid.
+        if the thread_title is too long.
+        if the thread_title is empty.
+        if the thread_message is too long.
+        if the thread_message is empty.
+
+When team_uuid, channel_uuid and thread_uuid are defined (/use "team_uuid" "channel_uuid" "thread_uuid")
+- /create ["comment_body"]
+    <-- 223 OK
+    or
+    <-- 423 KO
+        if client is not logged in.
+        if the comment_body is not valid.
+        if the comment_body is too long.
+        if the comment_body is empty.
+
+When the context is not defined (/use):
+- /list
+    <-- 235 OK
+    or
+    <-- 435 KO
+        if client is not logged in.
+
+When team_uuid is defined (/use "team_uuid"):
+- /list
+    <-- 236 OK
+    or
+    <-- 436 KO
+        if client is not logged in.
+
+When team_uuid and channel_uuid are defined (/use "team_uuid" "channel_uuid")
+- /list
+    <-- 237 OK
+    or
+    <-- 437 KO
+        if client is not logged in.
+
+When team_uuid, channel_uuid and thread_uuid are defined (/use "team_uuid" "channel_uuid" "thread_uuid")
+- /list
+    <-- 238 OK
+    or
+    <-- 438 KO
+        if client is not logged in.
+
+When the context is not defined (/use):
+- /info
+    <-- 242 OK
+    or
+    <-- 442 KO
+        if client is not logged in.
+
+When team_uuid is defined (/use "team_uuid"):
+- /info
+    <-- 243 OK
+    or
+    <-- 443 KO
+        if client is not logged in.
+
+When team_uuid and channel_uuid are defined (/use "team_uuid" "channel_uuid")
+- /info
+    <-- 244 OK
+    or
+    <-- 444 KO
+        if client is not logged in.
+
+When team_uuid, channel_uuid and thread_uuid are defined (/use "team_uuid" "channel_uuid" "thread_uuid")
+- /info
+    <-- 245 OK
+    or
+    <-- 445 KO
+        if client is not logged in.
+
+==========      END OF PROTOCOL      ==========
+
+==========      REPLY CODES      ==========
+
+Descriptions of reply codes:
+
+1XX: Informational response
+    110 Connection Establishment.
+    111 HELP.
+
+2XX: successful
+    202 Login accepted.
+    203 Logout accepted.
+    206 Message sent correctly.
+    208 Subscribed to team.
+    211 Unsubscribed from team.
+    212 Context changed.
+    220 Team created.
+    221 Channel created.
+    222 Thread created.
+    223 Reply created.
+    231 Users list.
+    232 Messages list.
+    233 Subscribed teams list.
+    234 Users in the team list.
+    235 Existing teams list.
+    236 Existing channels list.
+    237 Existing threads list.
+    238 Existing replies list.
+    241 User infos.
+    242 Logged Users infos.
+    243 Selected team infos.
+    244 Selected channel infos.
+    245 Selected thread infos.
+
+4XX: Client error
+    402 Error: Login refused.
+    403 Error: Logout refused.
+    406 Error: Message not sent.
+    408 Error: Subscription refused.
+    411 Error: Unsubscription refused.
+    412 Error: Context change refused.
+    420 Error: Team creation refused.
+    421 Error: Channel creation refused.
+    422 Error: Thread creation refused.
+    423 Error: Reply creation refused.
+    431 Error: Users list not found.
+    432 Error: Messages not listed.
+    433 Error: Subscribed teams not listed.
+    434 Error: Users not listed.
+    435 Error: Existing teams not listed.
+    436 Error: Existing channels not listed.
+    437 Error: Existing threads not listed.
+    438 Error: Existing replies not listed.
+    441 Error: User not found.
+    442 Error: Logged users not found.
+    443 Error: Selected team not found.
+    444 Error: Selected channel not found.
+    445 Error: Selected thread not found.
+
+5XX: Server error
+    500 Error: Invalid command.
+
+==========      END OF REPLY CODES      ==========

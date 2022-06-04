@@ -1,0 +1,153 @@
+#!/usr/bin/env python3
+##
+## EPITECH PROJECT, 2022
+## delivery [WSL: Ubuntu-20.04]
+## File description:
+## 208dowels
+##
+
+import sys
+from math import *
+from time import *
+
+def help():
+    print("USAGE\n    ./208dowels O0 O1 O2 O3 O4 O5 O6 O7 O8")
+    print("\nDESCRIPTION")
+    print("    Oi    size of the observed class")
+    sys.exit(0)
+
+def is_intarg(str):
+    try:
+        int(str)
+        return True
+    except ValueError:
+        return False
+
+def error():
+    """
+    """
+    somme = 0
+
+    if (len(sys.argv) != 10):
+        sys.exit(84)
+    for i in sys.argv[1:]:
+        if not is_intarg(i):
+            print(f"Error: {i} isn't a number", file=sys.stderr)
+            sys.exit(84)
+        if int(i) < 0:
+            print("Error: arguments must be greater or equal to 0", file=sys.stderr)
+            sys.exit(84)
+        somme += int(i)
+
+    if (somme != 100):
+        print("Error: sum of arguments must be 100", file=sys.stderr)
+        sys.exit(84)
+
+def getTabFromArgs(tab):
+    res = [int(i) for i in tab[1:]]
+    return res
+
+def mergeColumns(tab):
+    res = []
+    i = 0
+
+    while (i < len(tab) - 1):
+        if tab[i] >= 10:
+            res.append(tab[i])
+            i += 1
+        else:
+            if i < len(tab) - 1:
+                tab[i] = tab[i] + tab[i + 1]
+                tab.pop(i + 1)
+    res.append(tab[i])
+    return res
+
+def getMergedTab(tab):
+    res = tab
+    res.reverse()
+    res = mergeColumns(res)
+    res.reverse()
+    res = mergeColumns(res)
+    return (res)
+
+def getNumbersMerged(tab, merged):
+    res = []
+    i = 0
+
+def getCoefficientValue(k, n):
+    return factorial(n) / (factorial(k) * (factorial(n - k)))
+
+def getP(tab):
+    somme = 0
+
+    for i in range(len(tab)):
+        somme += i * tab[i]
+    
+    return somme / (100 * 100)
+
+def getTheorical(tab, merged):
+    res = []
+    i = 0
+    p = getP(tab)
+    result = 0.0
+
+    while (i < len(tab)):
+        result = 100 * getCoefficientValue(i, 100) * p ** i * (1 - p) ** (100 - i)
+        res.append(round(result, 1))
+        i += 1
+    return res
+
+def printTab(tab, merged):
+    """"""
+    numbers = getNumbersMerged(tab, merged)
+    theorical = getTheorical(tab, merged)
+
+    print("   x    |", end="")
+    for i in range(len(tab)):
+        if (i == len(tab)):
+            print(f" {i}", end="")
+        else:
+            print(f" {i}\t|", end="")
+    print(" Total")
+
+    print("  Ox    |", end="")
+    for i in range(len(tab)):
+        print(f" {tab[i]}\t|", end="")
+    print(" 100")
+
+    print("  Tx    |", end="")
+    for i in range(len(theorical)):
+        print(f" {theorical[i]}\t|", end="")
+    print(" 100")
+
+def distribution(tab, merged):
+    """"""
+    
+def chiSquared(tab, merged):
+    """"""
+
+def degreesOfFreedom(tab, merged):
+    """"""
+
+def fitValidity(tab, merged):
+    """"""
+
+def main_calcul(tab, merged):
+    printTab(tab, merged)
+    distribution(tab, merged)
+    chiSquared(tab, merged)
+    degreesOfFreedom(tab, merged)
+    fitValidity(tab, merged)
+
+def main():
+    if (len(sys.argv) == 2 and sys.argv[1] == "-h"):
+        help()
+    else:
+        error()
+        tab = getTabFromArgs(sys.argv)
+        merged = getMergedTab(tab)
+        main_calcul(tab, merged)
+        return 0
+
+if __name__ == "__main__":
+    main()

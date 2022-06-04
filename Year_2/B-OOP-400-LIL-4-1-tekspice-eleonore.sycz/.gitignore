@@ -1,0 +1,7 @@
+*.o
+nanotekspice
+test.txt
+
+tests/
+.vscode/
+nts_single/

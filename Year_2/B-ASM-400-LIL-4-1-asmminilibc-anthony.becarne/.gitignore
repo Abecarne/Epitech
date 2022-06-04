@@ -1,0 +1,6 @@
+*.o
+a.out
+libasm.so
+
+test.c
+test.rar
