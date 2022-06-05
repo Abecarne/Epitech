@@ -1,6 +1,0 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/abecarne/delivery/PERSO/Epitech'
-make: Leaving directory '/home/abecarne/delivery/PERSO/Epitech'
- 
-make: *** No targets specified and no makefile found.  Stop.
-
