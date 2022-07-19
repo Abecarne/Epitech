@@ -14,11 +14,17 @@ void bomberman::environment::Map::init(std::string mapFolder)
 {
     _mapFolder = mapFolder;
 
+    std::cout << "HELLLLLOOOOOOOO" << std::endl;
+
     _mapParser.init(_mapFolder);
 }
 
 bomberman::environment::Map::~Map(void)
 {
+    std::cout << "dsqdsqdsdsqdsdq" << std::endl;
+
+    _staticModels.clear();
+    _animatedModels.clear();
 }
 
 void bomberman::environment::Map::renderMap(void)

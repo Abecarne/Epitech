@@ -35,14 +35,14 @@ void bomberman::menu::CreateProfile::init(bomberman::core::GameEngine *engine)
 void bomberman::menu::CreateProfile::initButtons(bomberman::core::GameEngine *engine)
 {
     _buttons.push_back(bomberman::objects::Button("assets/buttons/back.png",
-    (Vector2){ 100.0f, (float)(engine->options.getWindowHeight() - 100.0f) },
+    { 100.0f, (float)(engine->options.getWindowHeight() - 100.0f) },
     0.2f, [](bomberman::core::GameEngine *engine){ engine->changeState(bomberman::menu::SaveMenu::getInstance()); }));
 }
 
 void bomberman::menu::CreateProfile::initAssets(bomberman::core::GameEngine *engine)
 {
     _image = bomberman::objects::Image("assets/img/plank.png",
-    (Vector2){ (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 2) },
+    { (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 2) },
     0.6f);
     _image.setText(_image.getWidth() / 2.0f, _image.getHeight() / 2.5f, "Entrer votre pseudo", 50.0f, WHITE);
 }
@@ -71,7 +71,7 @@ bomberman::core::GameEngine *engine)
             if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
                 (*buttons)[i].press();
             else
-                (*buttons)[i].hover(engine->options.music.isSoundActive());
+                (*buttons)[i].hover(engine->options.music.isSoundActive(), engine);
             if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
                 (*buttons)[i].click(engine->options.music.isSoundActive(), engine);
         } else
@@ -91,7 +91,6 @@ void bomberman::menu::CreateProfile::processInput(bomberman::core::GameEngine *e
     if (_isOnText) {
         SetMouseCursor(MOUSE_CURSOR_IBEAM);
         _key = GetCharPressed();
-        std::cout << (char)_key << std::endl;
         while (_key > 0) {
             if (_key >= 32 && _key <= 125 && _letterCount < 8) {
                 pseudo.insert(_letterCount, 1, (char(_key)));
@@ -115,19 +114,18 @@ void bomberman::menu::CreateProfile::processInput(bomberman::core::GameEngine *e
 void bomberman::menu::CreateProfile::update(bomberman::core::GameEngine *engine,
 bomberman::core::Time deltaTime)
 {
-    UpdateMusicStream(engine->options.music.getMusicStream());
 }
 
 void bomberman::menu::CreateProfile::render(bomberman::core::GameEngine *engine)
 {
-    (void)engine;
     BeginDrawing();
-        ClearBackground((Color){ 85, 97, 67, 1 });
+        ClearBackground({ 85, 97, 67, 1 });
         BeginMode3D(*_camera.getCamera());
             DrawModel(_background, _backgroundPos, 1.0f, WHITE);
         EndMode3D();
         _image.draw();
         for (size_t i = 0; i < _buttons.size(); i++)
             _buttons[i].draw();
+        engine->drawCursor();
     EndDrawing();
 }

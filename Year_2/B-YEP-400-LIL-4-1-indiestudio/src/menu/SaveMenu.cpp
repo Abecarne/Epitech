@@ -13,8 +13,8 @@
 #include <filesystem>
 #include <fstream>
 #include <sstream>
-#include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/classification.hpp>
+#include "boost/algorithm/string.hpp"
+#include "boost/algorithm/string/classification.hpp"
 
 bomberman::menu::SaveMenu *bomberman::menu::SaveMenu::_saveMenuInstance {nullptr};
 std::mutex bomberman::menu::SaveMenu::_mutex;
@@ -37,9 +37,9 @@ void displayProfile(bomberman::objects::MenuButton *button, size_t index)
     std::string fileData;
     std::vector<std::string> values;
     std::map<std::string, bomberman::menu::textInfos_t> infos = {
-        {"PSEUDO", {(Vector2){ 110.0f, 25.0f }, "", "", 40.0f, (Color){ 245, 200, 90, 255 }}},
-        {"TIME_PLAYED", {(Vector2){ button->getWidth() / 1.15f, button->getHeight() / 1.5f }, "", " m", 30.0f, (Color){ 245, 200, 90, 255 }}},
-        {"PIKCOINS", {(Vector2){ 160.0f, button->getHeight() / 1.5f }, "Pikcoins ", " $", 30.0f, (Color){ 245, 200, 90, 255 }}},
+        {"PSEUDO", {{ 110.0f, 25.0f }, "", "", 40.0f, { 245, 200, 90, 255 }}},
+        {"TIME_PLAYED", {{ button->getWidth() / 1.15f, button->getHeight() / 1.5f }, "", " m", 30.0f, { 245, 200, 90, 255 }}},
+        {"PIKCOINS", {{ 160.0f, button->getHeight() / 1.5f }, "Pikcoins ", " $", 30.0f, { 245, 200, 90, 255 }}},
     };
 
     for (size_t i = 0; fileStream >> fileData; i++) {
@@ -78,7 +78,7 @@ bomberman::core::GameEngine *engine)
                 (*buttons)[i - 1].getHeight() / 2.66f,
                 "Empty Save",
                 50.0f,
-                (Color){ 245, 200, 90, 255 }
+                { 245, 200, 90, 255 }
             );
             (*buttons)[i - 1].setCallback([](bomberman::core::GameEngine *engine)
             {engine->changeState(bomberman::menu::CreateProfile::getInstance());});
@@ -89,13 +89,13 @@ bomberman::core::GameEngine *engine)
 void bomberman::menu::SaveMenu::initButton(bomberman::core::GameEngine *engine)
 {
     _buttons.push_back(bomberman::objects::MenuButton(LOADSAVEBTN,
-    (Vector2){ (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 4) },
+    { (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 4) },
     0.5f, [](bomberman::core::GameEngine *){}));
     _buttons.push_back(bomberman::objects::MenuButton(LOADSAVEBTN,
-    (Vector2){ (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 2) },
+    { (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 2) },
     0.5f, [](bomberman::core::GameEngine *){}));
     _buttons.push_back(bomberman::objects::MenuButton(LOADSAVEBTN,
-    (Vector2){ (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 1.33) },
+    { (float)(engine->options.getWindowWidth() / 2), (float)(engine->options.getWindowHeight() / 1.33) },
     0.5f, [](bomberman::core::GameEngine *){}));
     loadSave(&_buttons, engine);
 }
@@ -124,7 +124,6 @@ void bomberman::menu::SaveMenu::processInput(bomberman::core::GameEngine *engine
 void bomberman::menu::SaveMenu::update(bomberman::core::GameEngine *engine,
 bomberman::core::Time deltaTime)
 {
-    UpdateMusicStream(engine->options.music.getMusicStream());
     for (size_t i = 0; i < _buttons.size(); i++) {
         if (CheckCollisionPointRec(engine->getMouseCoordinates(), _buttons[i].getBounds())) {
             if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
@@ -132,7 +131,7 @@ bomberman::core::Time deltaTime)
                 _buttons[i].setColor(WHITE);
             } else {
                 _buttons[i].hover(engine->options.music.isSoundActive());
-                _buttons[i].setColor((Color){ 255, 255, 255, 230 });
+                _buttons[i].setColor({ 255, 255, 255, 230 });
             }
             if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
                 _buttons[i].click(engine->options.music.isSoundActive(), engine);
@@ -146,13 +145,13 @@ bomberman::core::Time deltaTime)
 
 void bomberman::menu::SaveMenu::render(bomberman::core::GameEngine *engine)
 {
-    (void)engine;
     BeginDrawing();
-        ClearBackground((Color){ 85, 97, 67, 1 });
+        ClearBackground({ 85, 97, 67, 1 });
         BeginMode3D(*_camera.getCamera());
             DrawModel(_background, _backgroundPos, 1.0f, WHITE);
         EndMode3D();
         for (size_t i = 0; i < _buttons.size(); i++)
             _buttons[i].draw();
+        engine->drawCursor();
     EndDrawing();
 }

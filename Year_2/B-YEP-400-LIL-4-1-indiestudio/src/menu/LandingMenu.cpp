@@ -5,7 +5,8 @@
 ** LandingMenu.cpp
 */
 #include "LandingMenu.hpp"
-#include "SaveMenu.hpp"
+#include "MainMenu.hpp"
+#include "PauseMenu.hpp"
 #include "Time.hpp"
 #include <iostream>
 #include <cmath>
@@ -25,9 +26,9 @@ void bomberman::menu::LandingMenu::init(bomberman::core::GameEngine *engine)
     _isZoomEnded = false;
     _text = bomberman::text::Text(
         "Press any keys to start the game",
-        (Vector2){ engine->options.getWindowWidth() / 2.0f, engine->options.getWindowHeight() / 1.5f },
+        { engine->options.getWindowWidth() / 2.0f, engine->options.getWindowHeight() / 1.5f },
         50.0f,
-        (Color){ 255, 255, 255, 200 }
+        { 255, 255, 255, 200 }
     );
     std::cout << "Landing menu initialized." << std::endl;
 }
@@ -51,7 +52,7 @@ void bomberman::menu::LandingMenu::resume()
 void bomberman::menu::LandingMenu::processInput(bomberman::core::GameEngine *engine)
 {
     if (IsKeyPressed(GetKeyPressed()) && _isZoomEnded)
-        engine->changeState(SaveMenu::getInstance());
+        engine->changeState(bomberman::menu::MainMenu::getInstance());
 }
 
 bool cameraZoom(bomberman::entities::CameraCustom &camera,
@@ -71,15 +72,13 @@ float startedTime, float deltaTime)
 void bomberman::menu::LandingMenu::update(bomberman::core::GameEngine *engine,
 bomberman::core::Time deltaTime)
 {
-    UpdateMusicStream(engine->options.music.getMusicStream());
     _isZoomEnded = cameraZoom(_camera, _startedTime, deltaTime);
 }
 
-void bomberman::menu::LandingMenu::render(bomberman::core::GameEngine *engine)
+void bomberman::menu::LandingMenu::render(bomberman::core::GameEngine *)
 {
-    (void)engine;
     BeginDrawing();
-        ClearBackground((Color){ 85, 97, 67, 1 });
+        ClearBackground({ 85, 97, 67, 1 });
         BeginMode3D(*_camera.getCamera());
             DrawModel(_background, _backgroundPos, 1.0f, WHITE);
         EndMode3D();

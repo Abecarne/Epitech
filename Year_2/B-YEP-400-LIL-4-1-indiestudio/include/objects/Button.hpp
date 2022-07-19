@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "GameEngine.hpp"
+#include "Options.hpp"
 #include "Text.hpp"
 
 namespace bomberman {
@@ -33,24 +34,26 @@ namespace bomberman {
                 Rectangle _bounds;
                 Vector2 _origin;
                 buttonState _state;
-                Sound _hoverSound = LoadSound("assets/music/button_hover.wav");
-                Sound _clickSound = LoadSound("assets/music/button_click.wav");
+                bomberman::settings::Actions _actions;
 
             public:
                 Button(std::string buttonTexture, Vector2 position, float scale, callback_t callback);
 
                 callback_t _callback;
                 void draw();
-                void hover(bool isSound);
+                void hover(bool isSound, bomberman::core::GameEngine *engine);
                 void press();
                 void click(bool isSound, bomberman::core::GameEngine *engine);
                 void released();
                 void setText(int x, int y, std::string text, float size, Color color);
+                void changeText(std::string text);
                 void setCallback(callback_t callback);
+                void defineActions(bomberman::settings::Actions actions);
 
                 Rectangle getBounds();
                 float getWidth();
                 float getHeight();
+                bomberman::settings::Actions getActions();
         };
     }
 }

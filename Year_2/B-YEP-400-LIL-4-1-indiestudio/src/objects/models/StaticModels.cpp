@@ -23,10 +23,10 @@ bomberman::models::StaticModels::StaticModels(std::string modelFile, Vector3 pos
     initModel(modelFile);
 
     box = GetModelBoundingBox(_model);
-    _modelSize = (Vector3){box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z};
+    _modelSize = {box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z};
 }
 
-bomberman::models::StaticModels::StaticModels(Mesh mesh, Color color, Vector3 position = (Vector3){0.0f, 0.0f, 0.0f}, Vector3 scale = (Vector3){1.0f, 1.0f, 1.0f}, Vector3 rotationAxis = (Vector3){1.0f, 0.0f, 0.0f}, float rotationAngle = -90)
+bomberman::models::StaticModels::StaticModels(Mesh mesh, Color color, Vector3 position = {0.0f, 0.0f, 0.0f}, Vector3 scale = {1.0f, 1.0f, 1.0f}, Vector3 rotationAxis = {1.0f, 0.0f, 0.0f}, float rotationAngle = -90)
 {
     BoundingBox box;
 
@@ -40,13 +40,12 @@ bomberman::models::StaticModels::StaticModels(Mesh mesh, Color color, Vector3 po
     initModel(mesh);
 
     box = GetModelBoundingBox(_model);
-    _modelSize = (Vector3){box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z};
+    _modelSize = {box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z};
 }
 
 bomberman::models::StaticModels::~StaticModels(void)
-{
-    if (!_isMesh)
-        unloadModel();
+{   
+    unloadModel();
 }
 
 void bomberman::models::StaticModels::initModel(std::string modelFile)
@@ -59,6 +58,27 @@ void bomberman::models::StaticModels::initModel(std::string modelFile)
 void bomberman::models::StaticModels::initModel(Mesh mesh)
 {
     _model = LoadModelFromMesh(mesh);
+}
+
+bool bomberman::models::StaticModels::isCollision(Vector3 objectPos, Vector3 objectSize, Vector3 objectScale)
+{
+    BoundingBox actualObject = {{ _modelPosition.x - (_modelSize.x * _modelScale.x) / 2,
+                                  _modelPosition.y - (_modelSize.y * _modelScale.y) / 2,
+                                  _modelPosition.z - (_modelSize.z * _modelScale.z) / 2},
+                                { _modelPosition.x + (_modelSize.x * _modelScale.x) / 2,
+                                  _modelPosition.y + (_modelSize.y * _modelScale.y) / 2,
+                                  _modelPosition.z + (_modelSize.z * _modelScale.z) / 2}};
+
+    BoundingBox otherObjects = {{ objectPos.x - (objectSize.x * objectScale.x) / 2,
+                                                        objectPos.y - (objectSize.y * objectScale.y) / 2,
+                                                        objectPos.z - (objectSize.z * objectScale.z) / 2},
+                                             { objectPos.x + (objectSize.x * objectScale.x) / 2,
+                                                        objectPos.y + (objectSize.y * objectScale.y) / 2,
+                                                        objectPos.z + (objectSize.z * objectScale.z) / 2}};
+
+    if (CheckCollisionBoxes(actualObject, otherObjects))
+        return true;
+    return false;
 }
 
 void bomberman::models::StaticModels::unloadModel(void)

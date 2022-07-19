@@ -393,7 +393,7 @@
                     "z": 0
                 }
             },
-            "durationTime": 6
+            "durationTime": 4
         },
         {
             "begin": {
@@ -420,7 +420,7 @@
                     "z": 0
                 }
             },
-            "durationTime": 6
+            "durationTime": 4
         },
         {
             "begin": {
@@ -447,7 +447,7 @@
                     "z": 0
                 }
             },
-            "durationTime": 6
+            "durationTime": 3
         }
     ]
 }

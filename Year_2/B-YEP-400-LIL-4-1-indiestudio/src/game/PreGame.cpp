@@ -13,16 +13,20 @@ std::mutex bomberman::game::PreGame::_mutex;
 
 void bomberman::game::PreGame::init(bomberman::core::GameEngine *engine)
 {
-    _map = std::make_shared<bomberman::environment::Map>(*engine->getGameAssets()->getMap());
+    _map = engine->getGameAssets()->getMap().get();
     if (!_map)
         bomberman::core::Errors("[PreGame]", "Not enough memories!");
 
-    _skybox = std::make_shared<bomberman::environment::Skybox>(*engine->getGameAssets()->getSkyBox());
+    _skybox = engine->getGameAssets()->getSkyBox().get();
     if (!_skybox)
         bomberman::core::Errors("[PreGame]", "Not enough memories!");
     _travelingParser.init(_map->getMapFolder());
     _startedTime = GetTime();
     _nbrTraveling = 0;
+
+    Vector2 pos = {180, (float)engine->options.getWindowHeight() - 40};
+
+    _text = bomberman::text::Text("Press 'Enter' to Skip", pos, 30, WHITE);
 
     _travelingDurations = _travelingParser.getTravelingDurations();
     _beginPositions = _travelingParser.getBeginPosition();
@@ -31,11 +35,15 @@ void bomberman::game::PreGame::init(bomberman::core::GameEngine *engine)
     _camera.setTarget(0.0f, 0.0f, 0.0f);
     _camera.setUp(0.0f, 1.0f, 0.0f);
     _startedTime = GetTime();
+
+    engine->options.music.changeMusic(PREGAME_MUSIC);
 }
 
 void bomberman::game::PreGame::cleanup(void)
 {
-    // Nothing
+    _travelingDurations.clear();
+    _endingPositions.clear();
+    _beginPositions.clear();
 }
 
 void bomberman::game::PreGame::pause(void)
@@ -50,7 +58,8 @@ void bomberman::game::PreGame::resume(void)
 
 void bomberman::game::PreGame::processInput(bomberman::core::GameEngine *engine)
 {
-    (void)engine;
+    if (IsKeyPressed(KEY_ENTER))
+        engine->changeState(bomberman::game::Game::getInstance());
 }
 
 float getTimePercent(float maxSecond, float currentSecond)
@@ -61,7 +70,7 @@ float getTimePercent(float maxSecond, float currentSecond)
 void deplaceCamera(bomberman::entities::CameraCustom &camera, Vector3 startedPoint,
 Vector3 endedPoint, float time)
 {
-    Vector3 newPos = (Vector3){std::lerp(startedPoint.x, endedPoint.x, time),
+    Vector3 newPos = {std::lerp(startedPoint.x, endedPoint.x, time),
                                std::lerp(startedPoint.y, endedPoint.y, time),
                                std::lerp(startedPoint.z, endedPoint.z, time)};
 
@@ -71,7 +80,7 @@ Vector3 endedPoint, float time)
 void moveCameraAngle(bomberman::entities::CameraCustom &camera, Vector3 firstAngle,
 Vector3 secondAngle, float time)
 {
-    Vector3 newAngle = (Vector3){std::lerp(firstAngle.x, secondAngle.x, time),
+    Vector3 newAngle = {std::lerp(firstAngle.x, secondAngle.x, time),
                                  std::lerp(firstAngle.y, secondAngle.y, time),
                                  std::lerp(firstAngle.z, secondAngle.z, time)};
 
@@ -87,8 +96,11 @@ bomberman::core::Time deltaTime)
     (void)engine;
     (void)deltaTime;
     _map->updateMap();
-    if (_beginPositions.size() <= _nbrTraveling)
+
+    if (_beginPositions.size() <= _nbrTraveling) {
+        engine->changeState(bomberman::game::Game::getInstance());
         return;
+    }
     timePercent = getTimePercent(_travelingDurations[_nbrTraveling], elapsedTime) / 100;
     if (timePercent <= 1) {
         deplaceCamera(_camera, _beginPositions[_nbrTraveling].first, _endingPositions[_nbrTraveling].first, timePercent);
@@ -110,13 +122,25 @@ void bomberman::game::PreGame::render(bomberman::core::GameEngine *engine)
             _skybox->drawSkybox();
             _map->renderMap();
         EndMode3D();
+        _text.drawText();
     EndDrawing();
 }
 
 // Initialize Traveling Parser
 
+bomberman::game::PreGame::TravelingParser::~TravelingParser(void)
+{
+    _travelingDurations.clear();
+    _endingPositions.clear();
+    _beginPositions.clear();
+}
+
 void bomberman::game::PreGame::TravelingParser::init(std::string mapFolder)
 {
+    _travelingDurations.clear();
+    _endingPositions.clear();
+    _beginPositions.clear();
+
     openFile(mapFolder + "mapInfos.json");
     getTravelingInformations(mapFolder);
 }

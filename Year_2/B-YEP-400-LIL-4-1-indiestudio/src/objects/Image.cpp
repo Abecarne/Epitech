@@ -26,7 +26,7 @@ bomberman::objects::Image::Image(std::string imageTexture, Vector2 position, flo
 
 void bomberman::objects::Image::draw()
 {
-    DrawTextureEx(_imageTexture, (Vector2){ _bounds.x, _bounds.y }, 0.0f, _scale, WHITE);
+    DrawTextureEx(_imageTexture, { _bounds.x, _bounds.y }, 0.0f, _scale, WHITE);
     for (size_t i = 0; i < _texts.size(); i++)
         _texts[i].drawText();
 }
@@ -57,4 +57,14 @@ float bomberman::objects::Image::getWidth()
 float bomberman::objects::Image::getHeight()
 {
     return _bounds.height;
+}
+
+void bomberman::objects::Image::changePosition(Vector2 position)
+{
+    _bounds = {
+        position.x - _origin.x,
+        position.y - _origin.y,
+        _bounds.width,
+        _bounds.height
+    };
 }

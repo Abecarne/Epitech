@@ -38,6 +38,8 @@ namespace bomberman {
 
                 void renderModel(void);
 
+                bool isCollision(Vector3 objectPos, Vector3 objectSize, Vector3 objectScale);
+
                 Vector3 getPosition(void);
                 Vector3 getSize(void);
                 Vector3 getScale(void);

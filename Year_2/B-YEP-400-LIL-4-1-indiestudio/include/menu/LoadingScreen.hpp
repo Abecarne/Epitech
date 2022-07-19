@@ -18,7 +18,7 @@
 #include <ctime>
 #include <iostream>
 #include <any>
-#include <glib.h>
+#include <mutex>
 
 #define LOADING1 "./assets/loading/loading1.mov"
 #define LOADING2 "./assets/loading/loading2.mov"
@@ -43,6 +43,10 @@ namespace bomberman {
                 void loadMapAssets(bomberman::core::GameEngine *engine);
                 void loadSkyAssets(bomberman::core::GameEngine *engine);
                 void loadGameBoardAssets(bomberman::core::GameEngine *engine);
+                void loadAllPlayersAssets(bomberman::core::GameEngine *engine);
+                void loadBombsAssets(bomberman::core::GameEngine* engine);
+                void loadPowerUpsAssets(bomberman::core::GameEngine *engine);
+
             protected:
                 LoadingScreen() {};
                 ~LoadingScreen() {};

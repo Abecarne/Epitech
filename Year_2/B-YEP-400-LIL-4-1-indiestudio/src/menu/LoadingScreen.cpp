@@ -17,18 +17,21 @@ void bomberman::menu::LoadingScreen::init(bomberman::core::GameEngine *engine)
     _loadingState = "MAP_MODULES";
 
     engine->initGameAssets();
-    engine->getGameAssets()->initMap(CHINEASE_MAP);
-    engine->getGameAssets()->initSkyBox(bomberman::environment::Skybox::DAY);
     engine->getGameAssets()->initGameBoard(15, 17, {0, 0, 0}, DESTRUCTIBLE_WOODBOX, DESTRUCTIBLE_WOODBOX, DESTRUCTIBLE_JAPANEASE);
+    engine->getGameAssets()->initSkyBox();
+    engine->getGameAssets()->initMap(engine->options.getMapPath());
 
-    _loadingFct = {{"MAP_MODULES", &bomberman::menu::LoadingScreen::loadMapAssets},
-                   {"SKY_MODULES", &bomberman::menu::LoadingScreen::loadSkyAssets},
-                   {"GAMEBOARD_MODULES", &bomberman::menu::LoadingScreen::loadGameBoardAssets}};
+    _loadingFct = { {"MAP_MODULES", &bomberman::menu::LoadingScreen::loadMapAssets},
+                    {"SKY_MODULES", &bomberman::menu::LoadingScreen::loadSkyAssets},
+                    {"GAMEBOARD_MODULES",& bomberman::menu::LoadingScreen::loadGameBoardAssets},
+                    {"CHARACTERS_MODULES", &bomberman::menu::LoadingScreen::loadAllPlayersAssets},
+                    {"BOMBS_MODULES", &bomberman::menu::LoadingScreen::loadBombsAssets}};
 
     _camera.setPosition(0.0f, 0.0f, 0.0f);
     _camera.setTarget(0.0f, 0.0f, 0.0f);
     _camera.setUp(0.0f, 1.0f, 0.0f);
 
+    StopMusicStream(engine->options.music.getMusicStream());
     _font = LoadFont("./assets/font/pikmin.ttf");
 }
 
@@ -63,6 +66,23 @@ void bomberman::menu::LoadingScreen::loadAllAssets(bomberman::core::GameEngine *
     }
 }
 
+
+void bomberman::menu::LoadingScreen::loadBombsAssets(bomberman::core::GameEngine *engine)
+{
+    engine->getGameAssets()->initNewTexture("BOMB", "./assets/models/entities/bombs/textures/walnut.png");
+
+    if (!engine->getGameAssets()->getAllLoadedTextures().contains("BOMB"))
+        throw bomberman::core::Errors("[Game]", "Bomb texture hasn't been loaded!");
+
+    engine->getGameAssets()->initNewTexture("BLAST", "./assets/models/entities/blasts/textures/Fire.png");
+
+    if (!engine->getGameAssets()->getAllLoadedTextures().contains("BLAST"))
+        throw bomberman::core::Errors("[Game]", "Blast texture hasn't been loaded!");
+
+    _loadingState = "FINISHING";
+    _isLoaded = true;
+}
+
 void bomberman::menu::LoadingScreen::loadMapAssets(bomberman::core::GameEngine *engine)
 {
     engine->getGameAssets()->getMap()->loadNextModels();
@@ -73,7 +93,10 @@ void bomberman::menu::LoadingScreen::loadMapAssets(bomberman::core::GameEngine *
 
 void bomberman::menu::LoadingScreen::loadSkyAssets(bomberman::core::GameEngine *engine)
 {
-    engine->getGameAssets()->getSkyBox()->init(bomberman::environment::Skybox::day_cycle::DAY);
+    if (engine->options.isNight())
+        engine->getGameAssets()->getSkyBox()->init(bomberman::environment::Skybox::day_cycle::NIGHT);
+    else
+        engine->getGameAssets()->getSkyBox()->init(bomberman::environment::Skybox::day_cycle::DAY);
 
     this->_loadingState = "GAMEBOARD_MODULES";
 }
@@ -82,10 +105,23 @@ void bomberman::menu::LoadingScreen::loadGameBoardAssets(bomberman::core::GameEn
 {
     engine->getGameAssets()->getGameBoard()->loadNextModels();
 
-    if (engine->getGameAssets()->getGameBoard()->getAssetsState()) {
-        _loadingState = "Finishing";
-        _isLoaded = true;
-    }
+    if (engine->getGameAssets()->getGameBoard()->getAssetsState())
+        _loadingState = "CHARACTERS_MODULES";
+}
+
+void bomberman::menu::LoadingScreen::loadAllPlayersAssets(bomberman::core::GameEngine *engine)
+{
+    int nbrEntity = 0;
+
+    std::vector<std::string> modelEntity = {MODEL_RED_LEAF_PIKMIN, MODEL_BLUE_LEAF_PIKMIN, MODEL_WHITE_LEAF_PIKMIN, MODEL_YELLOW_LEAF_PIKMIN};
+
+    for (nbrEntity = 0; nbrEntity < engine->options.getNbPlayers(); nbrEntity++)
+        engine->getGameAssets()->initPlayer((bomberman::entities::ACharacters::playerNum)nbrEntity, modelEntity[nbrEntity], SKIN_DEFAULT, bomberman::entities::ACharacters::characterColors::DEFAULT, ANIMATION_PIKMIN_DEFAULT);
+    
+    for (nbrEntity; nbrEntity < 4; nbrEntity++)
+        engine->getGameAssets()->initBots((bomberman::entities::ACharacters::playerNum)nbrEntity, modelEntity[nbrEntity], SKIN_DEFAULT, bomberman::entities::ACharacters::characterColors::DEFAULT, ANIMATION_PIKMIN_DEFAULT, (bomberman::entities::BotDifficulty)engine->options.getBotsDifficulty());
+
+    _loadingState = "BOMBS_MODULES";
 }
 
 void bomberman::menu::LoadingScreen::update(bomberman::core::GameEngine *engine,

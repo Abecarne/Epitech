@@ -4,27 +4,26 @@
 ** File description:
 ** Players.hpp
 */
+
 #pragma once
 
 #include "ACharacters.hpp"
+#include "Vector3Utils.hpp"
+
 #include <raylib.h>
 
-#define PLAYER_VELOCITY 0.5f
-
-namespace bomberman {
-
-    namespace entities {
-
-        class Players : public bomberman::entities::ACharacters {
-            private:
-
+namespace bomberman
+{
+    namespace entities
+    {
+        class Players : public bomberman::entities::ACharacters
+        {
             public:
-                Players(std::string typeModel = MODEL_RED_LEAF_PIKMIN, std::string skinModel = SKIN_DEFAULT, bomberman::entities::ACharacters::characterColors skinColor = bomberman::entities::ACharacters::characterColors::DEFAULT, std::string animationModel = ANIMATION_PIKMIN_DEFAULT, Vector3 pos = (Vector3){0.0f, 0.0f, 0.0f});
+                Players(bomberman::entities::ACharacters::playerNum playerNum, std::string typeModel = MODEL_RED_LEAF_PIKMIN, std::string skinModel = SKIN_DEFAULT, bomberman::entities::ACharacters::characterColors skinColor = bomberman::entities::ACharacters::characterColors::DEFAULT, std::string animationModel = ANIMATION_PIKMIN_DEFAULT, Vector3 pos = {0.0f, 0.0f, 0.0f});
                 ~Players();
 
-                void updateCharacter(void);
+                Vector4 getNewDirection(bomberman::core::Time deltaTime, int action);
+                void move(bomberman::core::Time deltaTime, int action);
         };
-
     };
-
 };

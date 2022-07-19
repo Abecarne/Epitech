@@ -1,0 +1,3 @@
+PSEUDO=Soryoz
+Pikcoins=9999999
+TIME_PLAYED=100

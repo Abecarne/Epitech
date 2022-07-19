@@ -22,7 +22,7 @@ bomberman::models::AnimatedModels::AnimatedModels(std::string modelFile, std::st
     initAnimation(animationFile);
 
     box = GetModelBoundingBox(_model);
-    _modelSize = (Vector3){box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z};
+    _modelSize = {box.max.x - box.min.x, box.max.y - box.min.y, box.max.z - box.min.z};
 }
 
 bomberman::models::AnimatedModels::~AnimatedModels(void)
@@ -53,6 +53,27 @@ void bomberman::models::AnimatedModels::initAnimation(std::string animationFile)
             throw bomberman::core::Errors("[Characters Initialization]", "Animations and models aren't compatible!");
     }
     _animFrameCounter = 0;
+}
+
+bool bomberman::models::AnimatedModels::isCollision(Vector3 objectPos, Vector3 objectSize, Vector3 objectScale)
+{
+    BoundingBox actualObject = {{_modelPosition.x - (_modelSize.x * _modelScale.x) / 2,
+                                                        _modelPosition.y - (_modelSize.y * _modelScale.y) / 2,
+                                                        _modelPosition.z - (_modelSize.z * _modelScale.z) / 2},
+                                             { _modelPosition.x + (_modelSize.x * _modelScale.x) / 2,
+                                                        _modelPosition.y + (_modelSize.y * _modelScale.y) / 2,
+                                                        _modelPosition.z + (_modelSize.z * _modelScale.z) / 2}};
+
+    BoundingBox otherObjects = {{ objectPos.x - (objectSize.x * objectScale.x) / 2,
+                                                        objectPos.y - (objectSize.y * objectScale.y) / 2,
+                                                        objectPos.z - (objectSize.z * objectScale.z) / 2},
+                                             { objectPos.x + (objectSize.x * objectScale.x) / 2,
+                                                        objectPos.y + (objectSize.y * objectScale.y) / 2,
+                                                        objectPos.z + (objectSize.z * objectScale.z) / 2}};
+
+    if (CheckCollisionBoxes(actualObject, otherObjects))
+        return true;
+    return false;
 }
 
 void bomberman::models::AnimatedModels::unloadModel(void)

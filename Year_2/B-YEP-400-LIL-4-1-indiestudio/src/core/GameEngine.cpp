@@ -7,28 +7,22 @@
 #include "raylib.h"
 #include "GameEngine.hpp"
 #include "AGameState.hpp"
-#include <string>
 #include <iostream>
+
+bomberman::core::GameEngine *bomberman::core::GameEngine::_gameEngineInstance {nullptr};
+std::mutex bomberman::core::GameEngine::_mutex;
 
 void bomberman::core::GameEngine::init()
 {
     std::cout << "Initializing game engine..." << std::endl;
     InitWindow(options.getWindowWidth(), options.getWindowHeight(), options.getTitle());
+    ToggleFullscreen();
     SetTargetFPS(options.getFps());
+    HideCursor();
+    SetExitKey(0);
     _gameAssets = nullptr;
-
-    // A enlever plus tard
-
-    // _gameAssets = new bomberman::game::GameAssets();
-
-    // if (!_gameAssets)
-    //     bomberman::core::Errors("[GameEngine]", "Not enough memories!");
-
-
-    // this->getGameAssets()->initSkyBox(bomberman::environment::Skybox::DAY);
-    // this->getGameAssets()->initMap(CHINEASE_MAP);
-    // this->getGameAssets()->initGameBoard(15, 17, {1, 1, 1}, DESTRUCTIBLE_WOODBOX, DESTRUCTIBLE_WOODBOX, DESTRUCTIBLE_JAPANEASE);
-
+    _shouldClose = false;
+    _image = LoadTexture("assets/img/cursor.png");
     std::cout << "Game engine initialized." << std::endl;
 }
 
@@ -39,13 +33,17 @@ void bomberman::core::GameEngine::cleanup()
         _states.back()->cleanup();
         _states.pop_back();
     }
+    UnloadTexture(_image);
+    if (this->_gameAssets)
+        delete this->_gameAssets;
+    CloseAudioDevice();
     CloseWindow();
     std::cout << "Game engine cleanup." << std::endl;
 }
 
 void bomberman::core::GameEngine::changeState(bomberman::core::AGameState *state)
 {
-    if (!_states.empty()) {
+    while (!_states.empty()) {
         _states.back()->cleanup();
         _states.pop_back();
     }
@@ -79,6 +77,7 @@ void bomberman::core::GameEngine::processInput()
 void bomberman::core::GameEngine::update(Time deltaTime)
 {
     _mousePoint = GetMousePosition();
+    options.music.update();
     _states.back()->update(this, deltaTime);
 }
 
@@ -91,7 +90,7 @@ void bomberman::core::GameEngine::gameLoop()
 {
     double timeCore;
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose() && !_shouldClose) {
         timeCore = GetTime();
         Time deltaTime = timeCore - _keepTime;
         _keepTime = timeCore;
@@ -108,7 +107,7 @@ Vector2 bomberman::core::GameEngine::getMouseCoordinates()
 
 void bomberman::core::GameEngine::initGameAssets(void)
 {
-    _gameAssets = new bomberman::game::GameAssets();
+    _gameAssets = bomberman::game::GameAssets::getInstance();
 
     if (!_gameAssets)
         bomberman::core::Errors("[GameEngine]", "Not enough memories!");
@@ -116,10 +115,29 @@ void bomberman::core::GameEngine::initGameAssets(void)
 
 void bomberman::core::GameEngine::cleanGameEngine(void)
 {
-    delete _gameAssets;
+    //void
 }
 
 bomberman::game::GameAssets *bomberman::core::GameEngine::getGameAssets(void)
 {
     return _gameAssets;
+}
+
+void bomberman::core::GameEngine::cleanGameAssets(void)
+{
+    if (_gameAssets) {
+        _gameAssets->cleanUp();
+        delete _gameAssets;
+        _gameAssets = nullptr;
+    }
+}
+
+void bomberman::core::GameEngine::shouldClose()
+{
+    _shouldClose = true;
+}
+
+void bomberman::core::GameEngine::drawCursor()
+{
+    DrawTextureEx(_image, _mousePoint, 0.0f, 0.2f, WHITE);
 }

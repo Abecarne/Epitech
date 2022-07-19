@@ -29,6 +29,7 @@ namespace bomberman {
                 void draw();
                 void setText(int x, int y, std::string text, float size, Color color);
                 void changeText(std::string text, int index);
+                void changePosition(Vector2 position);
 
                 Rectangle getBounds();
                 float getWidth();

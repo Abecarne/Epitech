@@ -9,3 +9,5 @@ CMakeFiles
 vgcore.*
 _deps/
 build/
+launch.sh
+bomberman.exe

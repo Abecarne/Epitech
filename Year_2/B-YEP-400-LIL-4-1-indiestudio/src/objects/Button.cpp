@@ -36,10 +36,10 @@ void bomberman::objects::Button::draw()
         _texts[i].drawText();
 }
 
-void bomberman::objects::Button::hover(bool isSound)
+void bomberman::objects::Button::hover(bool isSound, bomberman::core::GameEngine *engine)
 {
     if (isSound && _state != bomberman::objects::HOVER)
-        PlaySound(_hoverSound);
+        PlaySound(engine->options.music.getHoverSound());
     _state = bomberman::objects::HOVER;
     _sourceRec.x = _state * (_buttonTexture.width / 3);
 }
@@ -54,7 +54,7 @@ void bomberman::objects::Button::click(bool isSound, bomberman::core::GameEngine
 {
     _state = _state == bomberman::objects::NORMAL ? bomberman::objects::LOCKED : bomberman::objects::NORMAL;
     if (isSound)
-        PlaySound(_clickSound);
+        PlaySound(engine->options.music.getClickSound());
     _callback(engine);
     _sourceRec.x = _state * (_buttonTexture.width / 3);
 }
@@ -71,6 +71,11 @@ void bomberman::objects::Button::setText(int x, int y, std::string text, float s
     bomberman::text::Text textInstance(text, pos, size, color);
 
     _texts.push_back(textInstance);
+}
+
+void bomberman::objects::Button::changeText(std::string text)
+{
+    _texts.back().changeText(text);
 }
 
 Rectangle bomberman::objects::Button::getBounds()
@@ -91,4 +96,14 @@ float bomberman::objects::Button::getHeight()
 void bomberman::objects::Button::setCallback(callback_t callback)
 {
     _callback = callback;
+}
+
+bomberman::settings::Actions bomberman::objects::Button::getActions()
+{
+    return _actions;
+}
+
+void bomberman::objects::Button::defineActions(bomberman::settings::Actions action)
+{
+    _actions = action;
 }

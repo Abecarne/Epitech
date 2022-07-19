@@ -7,16 +7,20 @@
 #pragma once
 
 #include "AGameState.hpp"
+#include "Game.hpp"
 #include "Camera.hpp"
 #include "Skybox.hpp"
 #include "Map.hpp"
+#include "Text.hpp"
 
 #include <memory>
 #include <raylib.h>
 #include <cmath>
 #include <mutex>
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include "boost/property_tree/ptree.hpp"
+#include "boost/property_tree/json_parser.hpp"
+
+#define PREGAME_MUSIC "./assets/music/travelingMusic.mp3"
 
 namespace bomberman {
     namespace game {
@@ -36,7 +40,7 @@ namespace bomberman {
                         void pushTravelingInformations(boost::property_tree::ptree::value_type travelingNode);
                     public:
                         TravelingParser(void) {};
-                        ~TravelingParser(void) {};
+                        ~TravelingParser(void);
 
                         void init(std::string mapFolder);
                         std::vector<std::pair<Vector3, Vector3>> getBeginPosition(void);
@@ -51,9 +55,11 @@ namespace bomberman {
 
                 float _startedTime;
                 bomberman::entities::CameraCustom _camera;
-                std::shared_ptr<bomberman::environment::Skybox> _skybox;
-                std::shared_ptr<bomberman::environment::Map> _map;
+                bomberman::environment::Skybox *_skybox;
+                bomberman::environment::Map *_map;
                 bomberman::game::PreGame::TravelingParser _travelingParser;
+
+                bomberman::text::Text _text;
 
                 std::vector<std::pair<Vector3, Vector3>> _beginPositions;
                 std::vector<std::pair<Vector3, Vector3>> _endingPositions;

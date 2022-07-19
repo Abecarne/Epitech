@@ -36,7 +36,7 @@ Vector2 position, float scale, callback_t callback)
 
 void bomberman::objects::MenuButton::draw()
 {
-    DrawTextureEx(_buttonTexture, (Vector2){ _bounds.x, _bounds.y }, 0.0f, _scale, _color);
+    DrawTextureEx(_buttonTexture, { _bounds.x, _bounds.y }, 0.0f, _scale, _color);
     for (size_t i = 0; i < _texts.size(); i++)
         _texts[i].drawText();
     if (_state != NORMAL)
@@ -45,13 +45,13 @@ void bomberman::objects::MenuButton::draw()
         _alpha -= 0.03f;
     DrawTextureEx(
         _leafTexture1,
-        (Vector2){ _bounds.x + _bounds.width + 40.0f,
+        { _bounds.x + _bounds.width + 40.0f,
         _bounds.y + _bounds.height / 2.0f - _leafTexture1.height * 0.15f / 2.0f },
         0.0f, 0.15f, Fade(WHITE, _alpha)
     );
     DrawTextureEx(
         _leafTexture2,
-        (Vector2){ _bounds.x - _leafTexture2.width * 0.15f - 40.0f,
+        { _bounds.x - _leafTexture2.width * 0.15f - 40.0f,
         _bounds.y + _bounds.height / 2.0f - _leafTexture2.height * 0.15f / 2.0f },
         0.0f, 0.15f, Fade(WHITE, _alpha)
     );

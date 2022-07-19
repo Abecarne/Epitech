@@ -6,6 +6,7 @@
 */
 
 #include "Skybox.hpp"
+#include <iostream>
 
 bomberman::environment::Skybox::Skybox(void)
 {
@@ -46,7 +47,7 @@ void bomberman::environment::Skybox::applyShaderToTexture(void)
 {
     Image skyImg;
 
-    if (this->_state == DAY)
+    if (this->_state == bomberman::environment::Skybox::day_cycle::DAY)
         skyImg = LoadImage(DAY_SKY);
     else
         skyImg = LoadImage(NIGHT_SKY);
@@ -58,7 +59,7 @@ void bomberman::environment::Skybox::drawSkybox(void)
 {
     rlDisableBackfaceCulling();
     rlDisableDepthMask();
-    DrawModel(this->_skybox, (Vector3){0, 0, 0}, 1.0f, WHITE);
+    DrawModel(this->_skybox, {0, 0, 0}, 1.0f, WHITE);
     rlEnableBackfaceCulling();
     rlEnableDepthMask();
 }

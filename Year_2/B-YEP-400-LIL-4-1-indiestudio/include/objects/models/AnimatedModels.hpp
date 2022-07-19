@@ -30,11 +30,13 @@ namespace bomberman {
                     ACTION2
                 } actions;
 
-                AnimatedModels(std::string modelFile, std::string animationFile, std::string textureFile, Vector3 position = (Vector3){0.0f, 0.0f, 0.0f}, Vector3 scale = (Vector3){1.0f, 1.0f, 1.0f}, Vector3 rotationAxis = (Vector3){1.0f, 1.0f, 1.0f}, float rotationAngle = -90);
+                AnimatedModels(std::string modelFile, std::string animationFile, std::string textureFile, Vector3 position = {0.0f, 0.0f, 0.0f}, Vector3 scale = {1.0f, 1.0f, 1.0f}, Vector3 rotationAxis = {1.0f, 1.0f, 1.0f}, float rotationAngle = -90);
                 ~AnimatedModels(void);
 
                 void updateModel(void);
                 void renderModel(void);
+
+                bool isCollision(Vector3 objectPos, Vector3 objectSize, Vector3 objectScale);
 
                 void setPosition(Vector3 postion);
                 Vector3 getPosition(void);
@@ -55,6 +57,7 @@ namespace bomberman {
                 ModelAnimation *_animations;
                 int _animFrameCounter;
                 unsigned int _animCount;
+
 
                 void initModel(std::string modelFile, std::string textureFile);
                 void initAnimation(std::string animationFile);

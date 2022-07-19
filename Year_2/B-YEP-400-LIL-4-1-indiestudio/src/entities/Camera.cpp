@@ -9,9 +9,9 @@
 
 bomberman::entities::CameraCustom::CameraCustom()
 {
-    _camera.position = (Vector3){ 0.0f, 350.0f, 0.0f };
-    _camera.target = (Vector3){ 0.0f, 80.0f, 0.0f };
-    _camera.up = (Vector3){ 0.0f, 1.6f, 0.0f };
+    _camera.position = { 0.0f, 350.0f, 0.0f };
+    _camera.target = { 0.0f, 80.0f, 0.0f };
+    _camera.up = { 0.0f, 1.6f, 0.0f };
     _camera.fovy = 45.0f;
     _camera.projection = CAMERA_PERSPECTIVE;
     _moveSpeed = 5.0f;
@@ -54,17 +54,17 @@ void bomberman::entities::CameraCustom::setMoveSpeed(float moveSpeed)
 
 void bomberman::entities::CameraCustom::setPosition(float x, float y, float z)
 {
-    _camera.position = (Vector3){ x, y, z };
+    _camera.position = { x, y, z };
 }
 
 void bomberman::entities::CameraCustom::setTarget(float x, float y, float z)
 {
-    _camera.target = (Vector3){ x, y, z };
+    _camera.target = { x, y, z };
 }
 
 void bomberman::entities::CameraCustom::setUp(float x, float y, float z)
 {
-    _camera.up = (Vector3){ x, y, z };
+    _camera.up = { x, y, z };
 }
 
 void bomberman::entities::CameraCustom::setFovy(float fovy)
